@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Music Styles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+    h1 {
+      color: #333;
+    }
+    button {
+      width: 80%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎵 Music Styles</h1>
+  <div id="buttons"></div>
+
+  <script>
+    const musicStyles = {
+      "Tango": "https://www.youtube.com/watch?v=TGvXjKKT9yY",
+      "Bolero": "https://www.youtube.com/watch?v=kA5GkLM5C7M",
+      "Jazz": "https://www.youtube.com/watch?v=HMnrl0tmd3k",
+      "Salsa": "https://www.youtube.com/watch?v=8k3F_zzOeZE",
+      "Bossa Nova": "https://www.youtube.com/watch?v=UJkxFhFRFDA"
+    };
+
+    const container = document.getElementById('buttons');
+
+    for (const [style, url] of Object.entries(musicStyles)) {
+      const button = document.createElement('button');
+      button.textContent = style;
+      button.onclick = () => window.open(url, '_blank');
+      container.appendChild(button);
+    }
+  </script>
+
+</body>
+</html>
