@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Karaoke Song Requests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    input, button, ul {
+      width: 100%;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px;
+      border: none;
+      background: #007BFF;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      background: white;
+      border: 1px solid #ccc;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    li {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    li:hover {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <h1>Karaoke Requests</h1>
+  <input type="text" id="songInput" placeholder="Enter a song...">
+  <button onclick="addSong()">Add Song</button>
+  <button onclick="removeSelectedSong()">Remove Song</button>
+  <button onclick="clearList()">Clear List</button>
+  <button onclick="saveToFile()">Save to File</button>
+  <button onclick="loadFromFile()">Load from File</button>
+  <button onclick="searchYouTube()">Search on YouTube</button>
+  <button onclick="playBravoSound()">Ỗ tay (Clap)</button>
+  <ul id="songList"></ul>
+
+  <audio id="bravoSound" src="bravo.wav"></audio>
+
+  <script>
+    const songInput = document.getElementById("songInput");
+    const songList = document.getElementById("songList");
+    const bravoSound = document.getElementById("bravoSound");
+
+    function addSong() {
+      const song = songInput.value.trim();
+      if (song !== "") {
+        const li = document.createElement("li");
+        li.textContent = song;
+        li.onclick = () => li.classList.toggle("selected");
+        songList.appendChild(li);
+        songInput.value = "";
+      }
+    }
+
+    function removeSelectedSong() {
+      const selected = songList.querySelector(".selected");
+      if (selected) {
+        songList.removeChild(selected);
+      } else {
+        alert("Please select a song to remove.");
+      }
+    }
+
+    function clearList() {
+      songList.innerHTML = "";
+    }
+
+    function saveToFile() {
+      const songs = [...songList.children].map(li => li.textContent);
+      const blob = new Blob([songs.join("\n")], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `KaraokeSongs_${new Date().toISOString().replace(/[:.]/g, '-')}.txt`;
+      a.click();
+    }
+
+    function loadFromFile() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = ".txt";
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const lines = reader.result.split("\n");
+            lines.forEach(song => {
+              if (song.trim()) {
+                const li = document.createElement("li");
+                li.textContent = song;
+                li.onclick = () => li.classList.toggle("selected");
+                songList.appendChild(li);
+              }
+            });
+          };
+          reader.readAsText(file);
+        }
+      };
+      input.click();
+    }
+
+    function searchYouTube() {
+      const selected = songList.querySelector(".selected");
+      if (selected) {
+        const query = encodeURIComponent(selected.textContent + " karaoke");
+        window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+      } else {
+        alert("Please select a song to search on YouTube.");
+      }
+    }
+
+    function playBravoSound() {
+      bravoSound.play();
+    }
+  </script>
+</body>
+</html>
