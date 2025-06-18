@@ -15,17 +15,24 @@
     h1 {
       text-align: center;
     }
-    input, button, ul {
+    input {
+      display: block;
+      box-sizing: border-box;
       width: 100%;
-      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
     button {
+      width: 100%;
       padding: 10px;
       border: none;
       background: #007BFF;
       color: white;
       font-size: 16px;
-      margin-bottom: 5px;
+      margin: 5px 0;
       border-radius: 4px;
     }
     button:hover {
@@ -60,7 +67,7 @@
   <button onclick="saveToFile()">Save to File</button>
   <button onclick="loadFromFile()">Load from File</button>
   <ul id="songList"></ul>
-  <button onclick="playBravoSound()">Ỗ tay (Clap)</button>
+  <button onclick="playBravoSound()">VỖ tay (Clap)</button>
   <audio id="bravoSound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA="></audio>
 
   <script>
