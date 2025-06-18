@@ -46,6 +46,9 @@
     li:hover {
       background-color: #eee;
     }
+    .selected {
+      background-color: #cce5ff !important;
+    }
   </style>
 </head>
 <body>
@@ -56,10 +59,8 @@
   <button onclick="clearList()">Clear List</button>
   <button onclick="saveToFile()">Save to File</button>
   <button onclick="loadFromFile()">Load from File</button>
-  <button onclick="searchYouTube()">Search on YouTube</button>
-  <button onclick="playBravoSound()">VỖ tay (Clap)</button>
   <ul id="songList"></ul>
-
+  <button onclick="playBravoSound()">Ỗ tay (Clap)</button>
   <audio id="bravoSound" src="bravo.wav"></audio>
 
   <script>
@@ -72,7 +73,7 @@
       if (song !== "") {
         const li = document.createElement("li");
         li.textContent = song;
-        li.onclick = () => li.classList.toggle("selected");
+        li.onclick = () => searchYouTubeByTitle(song);
         songList.appendChild(li);
         songInput.value = "";
       }
@@ -97,7 +98,9 @@
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = `KaraokeSongs_${new Date().toISOString().replace(/[:.]/g, '-')}.txt`;
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
     }
 
     function loadFromFile() {
@@ -114,7 +117,7 @@
               if (song.trim()) {
                 const li = document.createElement("li");
                 li.textContent = song;
-                li.onclick = () => li.classList.toggle("selected");
+                li.onclick = () => searchYouTubeByTitle(song);
                 songList.appendChild(li);
               }
             });
@@ -125,14 +128,9 @@
       input.click();
     }
 
-    function searchYouTube() {
-      const selected = songList.querySelector(".selected");
-      if (selected) {
-        const query = encodeURIComponent(selected.textContent + " karaoke");
-        window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
-      } else {
-        alert("Please select a song to search on YouTube.");
-      }
+    function searchYouTubeByTitle(songTitle) {
+      const query = encodeURIComponent(songTitle + " karaoke");
+      window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
     }
 
     function playBravoSound() {
