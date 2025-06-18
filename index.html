@@ -67,7 +67,7 @@
   <button onclick="saveToFile()">Save to File</button>
   <button onclick="loadFromFile()">Load from File</button>
   <ul id="songList"></ul>
-  <button onclick="playBravoSound()">VỖ tay (Clap)</button>
+  <button onclick="closeYouTubeTabs()">Close YouTube</button>
   <audio id="bravoSound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA="></audio>
 
   <script>
@@ -144,7 +144,16 @@
       bravoSound.play();
     }
 
-    // Allow pressing Enter to add song
+    function closeYouTubeTabs() {
+  const allWindows = window.open('', '_blank');
+  if (allWindows && allWindows.close) {
+    allWindows.close();
+  } else {
+    alert("Browser restrictions prevent closing other tabs. Please close YouTube manually.");
+  }
+}
+
+// Allow pressing Enter to add song
     songInput.addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         event.preventDefault();
