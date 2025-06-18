@@ -62,6 +62,7 @@
   <ul id="songList"></ul>
   <button onclick="playBravoSound()">Ỗ tay (Clap)</button>
   <audio id="bravoSound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA="></audio>
+
   <script>
     const songInput = document.getElementById("songInput");
     const songList = document.getElementById("songList");
@@ -135,6 +136,14 @@
     function playBravoSound() {
       bravoSound.play();
     }
+
+    // Allow pressing Enter to add song
+    songInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addSong();
+      }
+    });
   </script>
 </body>
 </html>
