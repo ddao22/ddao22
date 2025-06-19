@@ -67,13 +67,13 @@
   <button onclick="saveToFile()">Save to File</button>
   <button onclick="loadFromFile()">Load from File</button>
   <ul id="songList"></ul>
-  <button onclick="closeYouTubeTabs()">Close YouTube</button>
-  <audio id="bravoSound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA="></audio>
+    <audio id="bravoSound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA="></audio>
 
   <script>
     const songInput = document.getElementById("songInput");
     const songList = document.getElementById("songList");
     const bravoSound = document.getElementById("bravoSound");
+    let youtubeWindow = null;
 
     function addSong() {
       const song = songInput.value.trim();
@@ -137,23 +137,23 @@
 
     function searchYouTubeByTitle(songTitle) {
       const query = encodeURIComponent(songTitle + " karaoke");
-      window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+      youtubeWindow = window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank', 'width=800,height=600');
+    }
+
+    function closeYouTubeTabs() {
+      if (youtubeWindow && !youtubeWindow.closed) {
+        youtubeWindow.close();
+        youtubeWindow = null;
+      } else {
+        // do nothing silently
+      }
     }
 
     function playBravoSound() {
       bravoSound.play();
     }
 
-    function closeYouTubeTabs() {
-  const allWindows = window.open('', '_blank');
-  if (allWindows && allWindows.close) {
-    allWindows.close();
-  } else {
-    alert("Browser restrictions prevent closing other tabs. Please close YouTube manually.");
-  }
-}
-
-// Allow pressing Enter to add song
+    // Allow pressing Enter to add song
     songInput.addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         event.preventDefault();
